@@ -1,5 +1,14 @@
+### Fork goals:
+- ❌ Update to 1.21.6
+- ❌ Surnames composed of both parents' names (child of Alex and Bernie is Carey Alex-Bernie). Only children produced from breeding can have surnames
+- ❌ Villager names based on biome they appear
+- ❌ Add more names from every country
+- ❌ Customizable chance of picking male or female name (which won't impact breeding possibility because villagers are genderless)
+- ❌ Remove `the` and other hardcoded tags
+- ❌ Name color based on popularity/reputation
+___
 # VillagerNames
-You can find the latest releases of this mod [here](https://www.curseforge.com/minecraft/mc-mods/villager-names-for-fabric/)
+You can find the latest releases from the parent repository of this mod on [CurseForge](https://www.curseforge.com/minecraft/mc-mods/villager-names-for-fabric/)
 ## Overview
 When we are playing Minecraft, we are presented to a very large amount of Mobs. Most of them are either passive or aggressive. But only two can be considered your allies. The tamed wolves and the Villagers (No, cats doesn't count. They really don't care about you).
 
