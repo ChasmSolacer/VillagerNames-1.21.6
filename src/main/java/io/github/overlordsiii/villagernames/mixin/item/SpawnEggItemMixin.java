@@ -28,8 +28,8 @@ public abstract class SpawnEggItemMixin extends Item {
 		super(settings);
 	}
 
-	@Inject(method = "spawnBaby", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/mob/MobEntity;setCustomName(Lnet/minecraft/text/Text;)V"), locals = LocalCapture.CAPTURE_FAILHARD)
-	private void spawnBabyInject(PlayerEntity user, MobEntity entity, EntityType entityType, ServerWorld world, Vec3d pos, ItemStack stack, CallbackInfoReturnable<Optional> cir, MobEntity mobEntity) {
+	@Inject(method = "spawnBaby", at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;decrementUnlessCreative(ILnet/minecraft/entity/LivingEntity;)V"), locals = LocalCapture.CAPTURE_FAILHARD)
+	private void spawnBabyInject(PlayerEntity user, MobEntity entity, EntityType<? extends MobEntity> entityType, ServerWorld world, Vec3d pos, ItemStack stack, CallbackInfoReturnable<Optional<MobEntity>> cir, MobEntity mobEntity) {
 		String stackName = stack.getName().getString();
 
 		if (mobEntity instanceof DefaultNameManager manager) {

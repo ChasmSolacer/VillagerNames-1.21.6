@@ -138,11 +138,12 @@ public class VillagerNameCommand {
         ctx.getSource().sendFeedback(() -> Text.literal(String.format(displayText
                 , FormattingDummy.fromFormatting(newFormatting)))
                 .formatted(newFormatting == Formatting.OBFUSCATED ? Formatting.WHITE : newFormatting).styled(style ->
-                        style.withClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND
+                        /*style.withClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND
                                 , "/villagername set villagerTextFormat " +
+                                FormattingDummy.fromFormatting(newFormatting).toString()))*/
+                        style.withClickEvent(new ClickEvent.RunCommand("/villagername set villagerTextFormat " +
                                 FormattingDummy.fromFormatting(newFormatting).toString()))
-                                .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
-                                        Text.literal(FormattingDummy.fromFormatting(newFormatting)
+                                .withHoverEvent(new HoverEvent.ShowText(Text.literal(FormattingDummy.fromFormatting(newFormatting)
                                                 .toString()).formatted(newFormatting))))
                 , true);
         VillagerNames.CONFIG_MANAGER.save();
@@ -161,11 +162,9 @@ public class VillagerNameCommand {
         }
         String text = String.format(displayedText, newvalue);
         ctx.getSource().sendFeedback( () -> Text.literal(text).formatted(Formatting.LIGHT_PURPLE)
-                .styled(style -> style.withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT
-                        , Text.literal(
+                .styled(style -> style.withHoverEvent(new HoverEvent.ShowText(Text.literal(
                                 "/villagername set " + literal + " " + newvalue)))
-                        .withClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND
-                                , "/villagername set " + literal))), true);
+                        .withClickEvent(new ClickEvent.SuggestCommand("/villagername set " + literal))), true);
         VillagerNames.CONFIG_MANAGER.save();
         try {
             broadCastConfigChangeToOps(ctx, ConfigChange.SET, VillagerGeneralConfig.class.getDeclaredField(literal), ctx.getSource().getPlayer(), null);
@@ -191,10 +190,8 @@ public class VillagerNameCommand {
           ctx.getSource().sendFeedback(() ->
                   Text.literal(text).formatted(Formatting.YELLOW)
                           .styled(style -> style.withClickEvent(
-                                  new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND
-                                          , "/villagername toggle " + literal))
-                                  .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT
-                                          , Text.literal("Toggle the " + literal + " rule")))), true);
+                                  new ClickEvent.SuggestCommand("/villagername toggle " + literal))
+                                  .withHoverEvent(new HoverEvent.ShowText(Text.literal("Toggle the " + literal + " rule")))), true);
         VillagerNames.CONFIG_MANAGER.save();
         try {
             broadCastConfigChangeToOps(ctx, ConfigChange.TOGGLE, VillagerGeneralConfig.class.getDeclaredField(literal), ctx.getSource().getPlayer(), null);
@@ -210,11 +207,9 @@ public class VillagerNameCommand {
             String text = String.format(displayText, toAdd);
             ctx.getSource().sendFeedback(() ->
                     Text.literal(text).formatted(Formatting.AQUA)
-                            .styled(style -> style.withHoverEvent(new HoverEvent(
-                                    HoverEvent.Action.SHOW_TEXT
-                                    , Text.literal("Add an item to the villager or golem list")))
-                                    .withClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND
-                                            , "/villagername add " + literal + " " + toAdd))), true);
+                            .styled(style -> style.withHoverEvent(new HoverEvent.ShowText(
+                                    Text.literal("Add an item to the villager or golem list")))
+                                    .withClickEvent(new ClickEvent.SuggestCommand("/villagername add " + literal + " " + toAdd))), true);
         }
         else{
             ctx.getSource().getPlayer().sendMessage(
@@ -246,9 +241,9 @@ public class VillagerNameCommand {
             String text = String.format(displayText, toRemove);
             ctx.getSource().sendFeedback(() -> Text.literal(text)
                     .formatted(Formatting.GOLD)
-                    .styled(style -> style.withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT
-                            , Text.literal("Remove a name from the villager or golem name list")))
-                            .withClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/villagername remove " + name + " " + toRemove)))
+                    .styled(style -> style.withHoverEvent(new HoverEvent.ShowText(
+                            Text.literal("Remove a name from the villager or golem name list")))
+                            .withClickEvent(new ClickEvent.SuggestCommand("/villagername remove " + name + " " + toRemove)))
                     , true);
         }
         else{
@@ -281,8 +276,8 @@ public class VillagerNameCommand {
                         Text.literal(field.getName() + " = " + field.get(VillagerNames.CONFIG.villagerGeneralConfig).toString())
                                 .styled(style -> style.withClickEvent(
                                         FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT ?
-                                                new ClickEvent(ClickEvent.Action.OPEN_FILE, FabricLoader.getInstance().getConfigDir() + "\\VillagerNames\\" + "villagerRules.json")
-                                                : new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/villagername info"))), false);
+                                                new ClickEvent.OpenFile(FabricLoader.getInstance().getConfigDir() + "\\VillagerNames\\" + "villagerRules.json")
+                                                : new ClickEvent.SuggestCommand("/villagername info"))), false);
 
 
             }
@@ -327,8 +322,8 @@ public class VillagerNameCommand {
                 .formatted(Formatting.ITALIC, Formatting.GRAY))
                 .append(Text.literal(" Would you like to restart the server?")
                         .formatted(Formatting.BOLD, Formatting.GOLD).styled(style ->
-                                style.withClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/stop"))
-                                        .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
+                                style.withClickEvent(new ClickEvent.RunCommand("/stop"))
+                                        .withHoverEvent(new HoverEvent.ShowText(
                                                 Text.literal("⚠ WARNING! YOU HAVE TO RESTART THE SERVER BY YOURSELF! ⚠").formatted(Formatting.RED)))));
     }
 

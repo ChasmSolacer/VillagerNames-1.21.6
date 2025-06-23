@@ -10,7 +10,10 @@ import net.minecraft.entity.mob.WitchEntity;
 import net.minecraft.entity.passive.MerchantEntity;
 import net.minecraft.entity.passive.VillagerEntity;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.text.Text;
+import net.minecraft.registry.entry.RegistryEntry;
+import net.minecraft.server.world.ServerWorld;
+import net.minecraft.storage.ReadView;
+import net.minecraft.storage.WriteView;
 import net.minecraft.village.VillagerData;
 import net.minecraft.village.VillagerDataContainer;
 import net.minecraft.village.VillagerProfession;
@@ -21,6 +24,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 import static io.github.overlordsiii.villagernames.VillagerNames.CONFIG;
 
@@ -47,16 +51,16 @@ public abstract class VillagerEntityMixin extends MerchantEntity implements Inte
         if (!this.hasCustomName()) {
             VillagerUtil.createVillagerNames((VillagerEntity) (Object) this);
         }
-        if (villagerData.getProfession() != VillagerProfession.NONE && this.hasCustomName()) {
+        if (villagerData.profession() != VillagerProfession.NONE && this.hasCustomName()) {
             VillagerUtil.addProfessionName((VillagerEntity) (Object) this);
         }
-        if (this.hasCustomName() && villagerData.getProfession() == VillagerProfession.NONE){
+        if (this.hasCustomName() && villagerData.profession() == VillagerProfession.NONE){
             VillagerUtil.updateLostVillagerProfessionName((VillagerEntity)(Object)this);
         }
     }
 
-    @Redirect(method = "onStruckByLightning", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/mob/WitchEntity;setCustomName(Lnet/minecraft/text/Text;)V"))
-    private void redirectWitchConversion(WitchEntity witchEntity, Text name) {
+    @Inject(method = "method_63666", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/mob/WitchEntity;setPersistent()V"), locals = LocalCapture.CAPTURE_FAILHARD)
+    private void redirectWitchConversion(ServerWorld serverWorld, WitchEntity witchEntity, CallbackInfo ci) {
         RaiderNameManager.setFirstName(witchEntity, getFirstName());
 
         if (CONFIG.villagerGeneralConfig.surNames) {
@@ -66,6 +70,7 @@ public abstract class VillagerEntityMixin extends MerchantEntity implements Inte
         if (this.playerName != null) {
             RaiderNameManager.setPlayerName(witchEntity, this.playerName);
         }
+        //return null;
     }
 
     @Redirect(method = "onDeath", at = @At(value = "INVOKE", target = "Lorg/slf4j/Logger;info(Ljava/lang/String;Ljava/lang/Object;Ljava/lang/Object;)V"))
@@ -86,42 +91,32 @@ public abstract class VillagerEntityMixin extends MerchantEntity implements Inte
         VillagerUtil.updateGrownUpVillagerName((VillagerEntity)(Object)(this));
     }
 
-    @Inject(method = "writeCustomDataToNbt", at = @At("TAIL"))
-    private void serializeData(NbtCompound tag, CallbackInfo ci) {
+    @Inject(method = "writeCustomData", at = @At("TAIL"))
+    private void serializeData(WriteView view, CallbackInfo ci) {
         if (firstName != null) {
-            tag.putString("firstName", firstName);
+            view.putString("firstName", firstName);
         }
         if (fullName != null) {
-            tag.putString("fullName", fullName);
+            view.putString("fullName", fullName);
         }
         if (lastName != null) {
-            tag.putString("lastName", lastName);
+            view.putString("lastName", lastName);
         }
         if (profession != null) {
-            tag.putString("profession", profession);
+            view.putString("profession", profession);
         }
         if (playerName != null) {
-            tag.putString("playerName", playerName);
+            view.putString("playerName", playerName);
         }
     }
 
-    @Inject(method = "readCustomDataFromNbt", at = @At("TAIL"))
-    private void deserializeData(NbtCompound tag, CallbackInfo ci) {
-        if (tag.contains("firstName")) {
-            this.firstName = tag.getString("firstName");
-        }
-        if (tag.contains("fullName")) {
-            this.fullName = tag.getString("fullName");
-        }
-        if (tag.contains("lastName")) {
-            this.lastName = tag.getString("lastName");
-        }
-        if (tag.contains("profession")) {
-            this.profession = tag.getString("profession");
-        }
-        if (tag.contains("playerName")) {
-            this.playerName = tag.getString("playerName");
-        }
+    @Inject(method = "readCustomData", at = @At("TAIL"))
+    private void deserializeData(ReadView view, CallbackInfo ci) {
+        view.getOptionalString("firstName").ifPresent(value -> this.firstName = value);
+        view.getOptionalString("fullName").ifPresent(value -> this.fullName = value);
+        view.getOptionalString("lastName").ifPresent(value -> this.lastName = value);
+        view.getOptionalString("profession").ifPresent(value -> this.profession = value);
+        view.getOptionalString("playerName").ifPresent(value -> this.playerName = value);
     }
 
     /**
