@@ -25,6 +25,7 @@ import net.minecraft.entity.passive.WanderingTraderEntity;
 import net.minecraft.entity.raid.RaiderEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
+import net.minecraft.util.Identifier;
 import net.minecraft.village.VillagerProfession;
 
 
@@ -112,7 +113,9 @@ public class VillagerUtil {
                 VillagerNameManager.setLastName(entity, generateRandomSurname());
             }
             if (entity.getVillagerData().profession() != VillagerProfession.NONE && CONFIG.villagerGeneralConfig.professionNames){
-                VillagerNameManager.setProfessionName(VillagerProfession.NITWIT == entity.getVillagerData().profession() ? CONFIG.villagerGeneralConfig.nitwitText : upperFirstLetter(entity.getVillagerData().profession().toString()), entity);
+                Identifier prof_identifier = Identifier.of(entity.getVillagerData().profession().getIdAsString());
+                String prof_idstring = entity.getVillagerData().profession().value().id().getString();
+                VillagerNameManager.setProfessionName(VillagerProfession.NITWIT == entity.getVillagerData().profession() ? CONFIG.villagerGeneralConfig.nitwitText : upperFirstLetter(entity.getVillagerData().profession().value().id().getString()), entity);
 
                 entity.setCustomName(VillagerNameManager.getFullNameAsText(entity, true));
                 entity.setCustomNameVisible(!CONFIG.villagerGeneralConfig.nameTagNames);
@@ -161,7 +164,7 @@ public class VillagerUtil {
         // this is done bc this is called before villagers are loaded by server, so villagers with professions will just dissapear unless they are parsed correctly
         generalVillagerUpdate(entity);
         if (VillagerNameManager.getProfessionName(entity) == null && CONFIG.villagerGeneralConfig.professionNames) {
-            VillagerNameManager.setProfessionName(upperFirstLetter(entity.getVillagerData().profession().toString()), entity);
+            VillagerNameManager.setProfessionName(upperFirstLetter(entity.getVillagerData().profession().value().id().getString()), entity);
         }
         entity.setCustomName(VillagerNameManager.getFullNameAsText(entity, true));
         entity.setCustomNameVisible(!CONFIG.villagerGeneralConfig.nameTagNames);
@@ -332,7 +335,7 @@ public class VillagerUtil {
                 }
             } else {
                 if (entity.getVillagerData().profession() != VillagerProfession.NONE && !entity.isBaby()) {
-                    VillagerNameManager.setProfessionName(upperFirstLetter(entity.getVillagerData().profession().toString()), entity);
+                    VillagerNameManager.setProfessionName(upperFirstLetter(entity.getVillagerData().profession().value().id().getString()), entity);
                 }
             }
 
