@@ -112,10 +112,14 @@ public class VillagerUtil {
             if (CONFIG.villagerGeneralConfig.surNames) {
                 VillagerNameManager.setLastName(entity, generateRandomSurname());
             }
-            if (entity.getVillagerData().profession() != VillagerProfession.NONE && CONFIG.villagerGeneralConfig.professionNames){
-                Identifier prof_identifier = Identifier.of(entity.getVillagerData().profession().getIdAsString());
-                String prof_idstring = entity.getVillagerData().profession().value().id().getString();
-                VillagerNameManager.setProfessionName(VillagerProfession.NITWIT == entity.getVillagerData().profession() ? CONFIG.villagerGeneralConfig.nitwitText : upperFirstLetter(entity.getVillagerData().profession().value().id().getString()), entity);
+            // If professions are displayed and the villager has a profession other than Villager (none)
+            if (CONFIG.villagerGeneralConfig.professionNames && entity.getVillagerData().profession().getKey().isPresent() &&
+                    entity.getVillagerData().profession().getKey().get().getValue().toString() != VillagerProfession.NONE.getValue().toString()){
+                // Set profession name to nitwitText or actual profession name
+                VillagerNameManager.setProfessionName(
+                        entity.getVillagerData().profession().getKey().get().getValue().toString() == VillagerProfession.NITWIT.getValue().toString() ?
+                        CONFIG.villagerGeneralConfig.nitwitText :
+                        upperFirstLetter(entity.getVillagerData().profession().value().id().getString()), entity);
 
                 entity.setCustomName(VillagerNameManager.getFullNameAsText(entity, true));
                 entity.setCustomNameVisible(!CONFIG.villagerGeneralConfig.nameTagNames);
@@ -325,7 +329,7 @@ public class VillagerUtil {
 
             entity.setCustomName(VillagerNameManager.getFullNameAsText(entity, true));
 
-            if (entity.getVillagerData().profession() == VillagerProfession.NITWIT && !entity.getCustomName().getString().contains(CONFIG.villagerGeneralConfig.nitwitText)){ // update if villager is nitwit and nitwit text changed
+            if (entity.getVillagerData().profession().getKey().get().getValue().toString() == VillagerProfession.NITWIT.getValue().toString() && !entity.getCustomName().getString().contains(CONFIG.villagerGeneralConfig.nitwitText)){ // update if villager is nitwit and nitwit text changed
                 VillagerNameManager.setProfessionName(CONFIG.villagerGeneralConfig.nitwitText, entity);
                 entity.setCustomName(VillagerNameManager.getFullNameAsText(entity, true));
             }
@@ -334,7 +338,7 @@ public class VillagerUtil {
                     VillagerNameManager.setProfessionName(null, entity);
                 }
             } else {
-                if (entity.getVillagerData().profession() != VillagerProfession.NONE && !entity.isBaby()) {
+                if (entity.getVillagerData().profession().getKey().get().getValue().toString() != VillagerProfession.NONE.getValue().toString() && !entity.isBaby()) {
                     VillagerNameManager.setProfessionName(upperFirstLetter(entity.getVillagerData().profession().value().id().getString()), entity);
                 }
             }
