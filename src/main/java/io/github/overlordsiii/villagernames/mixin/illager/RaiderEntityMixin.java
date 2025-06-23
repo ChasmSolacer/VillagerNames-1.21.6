@@ -5,6 +5,8 @@ import static io.github.overlordsiii.villagernames.VillagerNames.CONFIG;
 import java.util.Objects;
 
 import io.github.overlordsiii.villagernames.api.RaiderNameManager;
+import net.minecraft.storage.ReadView;
+import net.minecraft.storage.WriteView;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -183,41 +185,31 @@ public abstract class RaiderEntityMixin implements RaiderNameManager {
 		this.fullName = builder.toString();
 	}
 
-	@Inject(method = "writeCustomDataToNbt", at = @At("TAIL"))
-	private void serializeData(NbtCompound tag, CallbackInfo ci) {
+	@Inject(method = "writeCustomData", at = @At("TAIL"))
+	private void serializeData(WriteView view, CallbackInfo ci) {
 		if (firstName != null) {
-			tag.putString("firstName", firstName);
+			view.putString("firstName", firstName);
 		}
 		if (fullName != null) {
-			tag.putString("fullName", fullName);
+			view.putString("fullName", fullName);
 		}
 		if (lastName != null) {
-			tag.putString("lastName", lastName);
+			view.putString("lastName", lastName);
 		}
 		if (title != null) {
-			tag.putString("title", title);
+			view.putString("title", title);
 		}
 		if (playerName != null) {
-			tag.putString("playerName", playerName);
+			view.putString("playerName", playerName);
 		}
 	}
 
-	@Inject(method = "readCustomDataFromNbt", at = @At("TAIL"))
-	private void deserializeData(NbtCompound tag, CallbackInfo ci) {
-		if (tag.contains("firstName")) {
-			this.firstName = tag.getString("firstName");
-		}
-		if (tag.contains("fullName")) {
-			this.fullName = tag.getString("fullName");
-		}
-		if (tag.contains("lastName")) {
-			this.lastName = tag.getString("lastName");
-		}
-		if (tag.contains("title")) {
-			this.title = tag.getString("title");
-		}
-		if (tag.contains("playerName")) {
-			this.playerName = tag.getString("playerName");
-		}
+	@Inject(method = "readCustomData", at = @At("TAIL"))
+	private void deserializeData(ReadView view, CallbackInfo ci) {
+		view.getOptionalString("firstName").ifPresent(value -> this.firstName = value);
+		view.getOptionalString("fullName").ifPresent(value -> this.fullName = value);
+		view.getOptionalString("lastName").ifPresent(value -> this.lastName = value);
+		view.getOptionalString("title").ifPresent(value -> this.title = value);
+		view.getOptionalString("playerName").ifPresent(value -> this.playerName = value);
 	}
 }

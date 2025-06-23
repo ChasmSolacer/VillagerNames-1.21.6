@@ -71,7 +71,8 @@ dependencies {
 
 	modApi include("org.ladysnake.cardinal-components-api:cardinal-components-level:${project.cca_version}")
 
-	modImplementation 'curse.maven:guardvillagers-571503:5427036'
+	// Guard Villagers mod is out-of-date
+	//modImplementation 'curse.maven:guardvillagers-571503:5427036'
 
 	modImplementation "maven.modrinth:midnightlib:${project.midnightlib_version}"
 

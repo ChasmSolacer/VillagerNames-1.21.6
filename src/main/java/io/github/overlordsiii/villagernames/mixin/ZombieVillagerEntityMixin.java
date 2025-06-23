@@ -13,6 +13,8 @@ import net.minecraft.entity.mob.ZombieVillagerEntity;
 import net.minecraft.entity.passive.VillagerEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.storage.ReadView;
+import net.minecraft.storage.WriteView;
 import net.minecraft.village.VillagerDataContainer;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
@@ -33,8 +35,9 @@ public abstract class ZombieVillagerEntityMixin extends ZombieEntity implements 
         super(entityType, world);
     }
 
-    @Inject(method = "finishConversion", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/passive/VillagerEntity;initialize(Lnet/minecraft/world/ServerWorldAccess;Lnet/minecraft/world/LocalDifficulty;Lnet/minecraft/entity/SpawnReason;Lnet/minecraft/entity/EntityData;)Lnet/minecraft/entity/EntityData;"), locals = LocalCapture.CAPTURE_FAILEXCEPTION)
-    private void returnOriginalVillagerName(ServerWorld world, CallbackInfo ci, VillagerEntity villagerEntity) {
+    // finishConversion
+    @Inject(method = "method_63659", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/passive/VillagerEntity;initialize(Lnet/minecraft/world/ServerWorldAccess;Lnet/minecraft/world/LocalDifficulty;Lnet/minecraft/entity/SpawnReason;Lnet/minecraft/entity/EntityData;)Lnet/minecraft/entity/EntityData;"), locals = LocalCapture.CAPTURE_FAILEXCEPTION)
+    private void returnOriginalVillagerName(ServerWorld serverWorld, VillagerEntity villagerEntity, CallbackInfo ci) {
         VillagerUtil.removeZombieVillagerName(villagerEntity, (ZombieVillagerEntity)(Object)this);
     }
 
@@ -98,35 +101,27 @@ public abstract class ZombieVillagerEntityMixin extends ZombieEntity implements 
         return fullName;
     }
 
-    @Inject(method = "writeCustomDataToNbt", at = @At("TAIL"))
-    private void serializeData(NbtCompound tag, CallbackInfo ci) {
+    @Inject(method = "writeCustomData", at = @At("TAIL"))
+    private void serializeData(WriteView view, CallbackInfo ci) {
         if (firstName != null) {
-            tag.putString("firstName", firstName);
+            view.putString("firstName", firstName);
         }
         if (fullName != null) {
-            tag.putString("fullName", fullName);
+            view.putString("fullName", fullName);
         }
         if (lastName != null) {
-            tag.putString("lastName", lastName);
+            view.putString("lastName", lastName);
         }
         if (playerName != null) {
-            tag.putString("playerName", playerName);
+            view.putString("playerName", playerName);
         }
     }
 
-    @Inject(method = "readCustomDataFromNbt", at = @At("TAIL"))
-    private void deserializeData(NbtCompound tag, CallbackInfo ci) {
-        if (tag.contains("firstName")) {
-            this.firstName = tag.getString("firstName");
-        }
-        if (tag.contains("fullName")) {
-            this.fullName = tag.getString("fullName");
-        }
-        if (tag.contains("lastName")) {
-            this.lastName = tag.getString("lastName");
-        }
-        if (tag.contains("playerName")) {
-            this.playerName = tag.getString("playerName");
-        }
+    @Inject(method = "readCustomData", at = @At("TAIL"))
+    private void deserializeData(ReadView view, CallbackInfo ci) {
+        view.getOptionalString("firstName").ifPresent(value -> this.firstName = value);
+        view.getOptionalString("fullName").ifPresent(value -> this.fullName = value);
+        view.getOptionalString("lastName").ifPresent(value -> this.lastName = value);
+        view.getOptionalString("playerName").ifPresent(value -> this.playerName = value);
     }
 }

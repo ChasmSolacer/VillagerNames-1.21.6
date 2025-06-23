@@ -1,3 +1,5 @@
+// Guard Villagers mod is out-of-date
+/*
 package io.github.overlordsiii.villagernames.integration.guardvillagers;
 
 import static io.github.overlordsiii.villagernames.VillagerNames.CONFIG;
@@ -45,3 +47,4 @@ public class GuardVillagersIntegration {
 
 
 }
+*/
