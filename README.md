@@ -1,5 +1,5 @@
 ### Fork goals:
-- ❌ Update to 1.21.6
+- ☑️ Update to 1.21.6 (dropped support for Guard Villagers)
 - ❌ Surnames composed of both parents' names (child of Alex and Bernie is Carey Alex-Bernie). Only children produced from breeding can have surnames
 - ❌ Villager names based on biome they appear
 - ❌ Add more names from every country

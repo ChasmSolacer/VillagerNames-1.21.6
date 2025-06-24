@@ -51,10 +51,10 @@ public abstract class VillagerEntityMixin extends MerchantEntity implements Inte
         if (!this.hasCustomName()) {
             VillagerUtil.createVillagerNames((VillagerEntity) (Object) this);
         }
-        if (villagerData.profession().getKey().get().getValue().toString() != VillagerProfession.NONE.getValue().toString() && this.hasCustomName()) {
+        if (!VillagerUtil.getProfIdFromEntry(villagerData.profession()).equals(VillagerProfession.NONE.getValue().toString()) && this.hasCustomName()) {
             VillagerUtil.addProfessionName((VillagerEntity) (Object) this);
         }
-        if (this.hasCustomName() && villagerData.profession().getKey().get().getValue().toString() == VillagerProfession.NONE.getValue().toString()){
+        if (this.hasCustomName() && VillagerUtil.getProfIdFromEntry(villagerData.profession()).equals(VillagerProfession.NONE.getValue().toString())){
             VillagerUtil.updateLostVillagerProfessionName((VillagerEntity)(Object)this);
         }
     }
