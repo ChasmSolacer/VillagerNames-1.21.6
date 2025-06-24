@@ -23,9 +23,9 @@ import net.minecraft.entity.passive.IronGolemEntity;
 import net.minecraft.entity.passive.VillagerEntity;
 import net.minecraft.entity.passive.WanderingTraderEntity;
 import net.minecraft.entity.raid.RaiderEntity;
+import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
 import net.minecraft.village.VillagerProfession;
 
 
@@ -67,6 +67,14 @@ public class VillagerUtil {
         }
         usedUpNames.add(names.get(index));
         return names.get(index);
+    }
+
+    public static String getProfIdFromEntry(RegistryEntry<VillagerProfession> profession) {
+        return profession.getKey().get().getValue().toString();
+    }
+
+    public static String getProfNameFromEntry(RegistryEntry<VillagerProfession> profession) {
+        return profession.value().id().getString();
     }
 
     private static String generateWanderingTraderName(){
@@ -114,12 +122,12 @@ public class VillagerUtil {
             }
             // If professions are displayed and the villager has a profession other than Villager (none)
             if (CONFIG.villagerGeneralConfig.professionNames && entity.getVillagerData().profession().getKey().isPresent() &&
-                    entity.getVillagerData().profession().getKey().get().getValue().toString() != VillagerProfession.NONE.getValue().toString()){
+                !VillagerUtil.getProfIdFromEntry(entity.getVillagerData().profession()).equals(VillagerProfession.NONE.getValue().toString())){
                 // Set profession name to nitwitText or actual profession name
                 VillagerNameManager.setProfessionName(
-                        entity.getVillagerData().profession().getKey().get().getValue().toString() == VillagerProfession.NITWIT.getValue().toString() ?
+				                VillagerUtil.getProfIdFromEntry(entity.getVillagerData().profession()).equals(VillagerProfession.NITWIT.getValue().toString()) ?
                         CONFIG.villagerGeneralConfig.nitwitText :
-                        upperFirstLetter(entity.getVillagerData().profession().value().id().getString()), entity);
+                        upperFirstLetter(getProfNameFromEntry(entity.getVillagerData().profession())), entity);
 
                 entity.setCustomName(VillagerNameManager.getFullNameAsText(entity, true));
                 entity.setCustomNameVisible(!CONFIG.villagerGeneralConfig.nameTagNames);
@@ -165,10 +173,10 @@ public class VillagerUtil {
 
 
     public static void addProfessionName(VillagerEntity entity){
-        // this is done bc this is called before villagers are loaded by server, so villagers with professions will just dissapear unless they are parsed correctly
+        // this is done bc this is called before villagers are loaded by server, so villagers with professions will just disappear unless they are parsed correctly
         generalVillagerUpdate(entity);
         if (VillagerNameManager.getProfessionName(entity) == null && CONFIG.villagerGeneralConfig.professionNames) {
-            VillagerNameManager.setProfessionName(upperFirstLetter(entity.getVillagerData().profession().value().id().getString()), entity);
+            VillagerNameManager.setProfessionName(upperFirstLetter(getProfNameFromEntry(entity.getVillagerData().profession())), entity);
         }
         entity.setCustomName(VillagerNameManager.getFullNameAsText(entity, true));
         entity.setCustomNameVisible(!CONFIG.villagerGeneralConfig.nameTagNames);
@@ -206,6 +214,7 @@ public class VillagerUtil {
     public static void removeZombieVillagerName(VillagerEntity villagerEntity, ZombieVillagerEntity zombieVillagerEntity){
         if (zombieVillagerEntity.hasCustomName()){
             if (ZombieVillagerNameManager.getFirstName(zombieVillagerEntity) == null) {
+                //noinspection DataFlowIssue
                 String[] components = zombieVillagerEntity.getCustomName().getString().split("\\s+");
                 String firstNameParsed = components[0];
                 String lastNameParsed = null;
@@ -288,6 +297,7 @@ public class VillagerUtil {
                 // so to update, we'll have to parse the name and put it in our version of the villager names
                 //TODO this ^
 
+                //noinspection DataFlowIssue
                 String[] nameComponents = entity.getCustomName().getString().split("\\s+");
                 if (nameComponents.length == 0) {
                     return; // should never happen
@@ -329,7 +339,9 @@ public class VillagerUtil {
 
             entity.setCustomName(VillagerNameManager.getFullNameAsText(entity, true));
 
-            if (entity.getVillagerData().profession().getKey().get().getValue().toString() == VillagerProfession.NITWIT.getValue().toString() && !entity.getCustomName().getString().contains(CONFIG.villagerGeneralConfig.nitwitText)){ // update if villager is nitwit and nitwit text changed
+            // Update if villager is Nitwit and nitwit text changed
+            //noinspection DataFlowIssue
+            if (VillagerUtil.getProfIdFromEntry(entity.getVillagerData().profession()).equals(VillagerProfession.NITWIT.getValue().toString()) && !entity.getCustomName().getString().contains(CONFIG.villagerGeneralConfig.nitwitText)) {
                 VillagerNameManager.setProfessionName(CONFIG.villagerGeneralConfig.nitwitText, entity);
                 entity.setCustomName(VillagerNameManager.getFullNameAsText(entity, true));
             }
@@ -338,8 +350,8 @@ public class VillagerUtil {
                     VillagerNameManager.setProfessionName(null, entity);
                 }
             } else {
-                if (entity.getVillagerData().profession().getKey().get().getValue().toString() != VillagerProfession.NONE.getValue().toString() && !entity.isBaby()) {
-                    VillagerNameManager.setProfessionName(upperFirstLetter(entity.getVillagerData().profession().value().id().getString()), entity);
+                if (!VillagerUtil.getProfIdFromEntry(entity.getVillagerData().profession()).equals(VillagerProfession.NONE.getValue().toString()) && !entity.isBaby()) {
+                    VillagerNameManager.setProfessionName(upperFirstLetter(getProfNameFromEntry(entity.getVillagerData().profession())), entity);
                 }
             }
 
@@ -356,6 +368,7 @@ public class VillagerUtil {
 
     public static void updateWanderingTraderNames(WanderingTraderEntity entity){
         if (entity.hasCustomName()) {
+            //noinspection DataFlowIssue
             if (entity.getCustomName().getString().contains(" the ")) {
                 String fullName = Objects.requireNonNull(entity.getCustomName()).getString();
                 String firstName = fullName.substring(0, fullName.indexOf(" the "));
