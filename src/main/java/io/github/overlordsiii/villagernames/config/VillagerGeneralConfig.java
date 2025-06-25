@@ -20,7 +20,7 @@ public class VillagerGeneralConfig implements ConfigData {
     public String nitwitText = "Nitwit";
     @ConfigEntry.Gui.EnumHandler(option = ConfigEntry.Gui.EnumHandler.EnumDisplayOption.BUTTON)
     @ConfigEntry.Gui.Tooltip
-    public FormattingDummy villagerTextFormatting = FormattingDummy.WHITE;
+    public FormattingDummy villagerTextFormatting = FormattingDummy.RESET;
     @ConfigEntry.Gui.Tooltip
     public boolean childNames = false;
     @ConfigEntry.Gui.Tooltip
