@@ -21,7 +21,7 @@ import net.minecraft.util.Hand;
 
 @Mixin(NameTagItem.class)
 public abstract class NameTagItemMixin extends Item {
-	public NameTagItemMixin(net.minecraft.item.Item.Settings settings) {
+	public NameTagItemMixin(Settings settings) {
 		super(settings);
 	}
 

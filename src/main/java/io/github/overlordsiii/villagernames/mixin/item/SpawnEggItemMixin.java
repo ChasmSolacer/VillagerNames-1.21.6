@@ -24,7 +24,7 @@ import net.minecraft.util.math.Vec3d;
 
 @Mixin(SpawnEggItem.class)
 public abstract class SpawnEggItemMixin extends Item {
-	public SpawnEggItemMixin(net.minecraft.item.Item.Settings settings) {
+	public SpawnEggItemMixin(Settings settings) {
 		super(settings);
 	}
 

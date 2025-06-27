@@ -8,8 +8,8 @@ import net.minecraft.entity.passive.VillagerEntity;
 import net.minecraft.text.Text;
 
 /**
- * Used to manage names on a single {@link net.minecraft.entity.passive.VillagerEntity}
- * Use via duck mixin on {@link net.minecraft.entity.passive.VillagerEntity}
+ * Used to manage names on a single {@link VillagerEntity}
+ * Use via duck mixin on {@link VillagerEntity}
  */
 public interface VillagerNameManager extends DefaultNameManager {
 	/**
