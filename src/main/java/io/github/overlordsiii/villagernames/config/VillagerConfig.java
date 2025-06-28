@@ -40,13 +40,12 @@ public class VillagerConfig extends PartitioningSerializer.GlobalData implements
     @ConfigEntry.Gui.CollapsibleObject
     public final PiglinNamesConfig piglinNamesConfig = new PiglinNamesConfig();
 
-    @ConfigEntry.Category(value = "catName")
-    @ConfigEntry.Gui.CollapsibleObject
-    public final CatNamesConfig catNamesConfig = new CatNamesConfig();
-
     @ConfigEntry.Category(value = "piglinSurname")
     @ConfigEntry.Gui.CollapsibleObject
     public final PiglinSurnamesConfig piglinSurnamesConfig = new PiglinSurnamesConfig();
 
+    @ConfigEntry.Category(value = "catName")
+    @ConfigEntry.Gui.CollapsibleObject
+    public final CatNamesConfig catNamesConfig = new CatNamesConfig();
 }
 
