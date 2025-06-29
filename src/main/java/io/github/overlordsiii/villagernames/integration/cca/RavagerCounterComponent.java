@@ -4,7 +4,6 @@ import net.minecraft.storage.ReadView;
 import net.minecraft.storage.WriteView;
 
 public class RavagerCounterComponent implements IntComponent {
-
 	//random starting point
 	private int value = (int) (Math.random() * 100);
 

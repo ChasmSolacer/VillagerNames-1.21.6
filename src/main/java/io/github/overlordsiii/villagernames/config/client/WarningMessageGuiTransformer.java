@@ -14,7 +14,6 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 
 public class WarningMessageGuiTransformer implements GuiTransformer {
-
 	@Override
 	public List<AbstractConfigListEntry> transform(List<AbstractConfigListEntry> list, String s, Field field, Object o, Object o1, GuiRegistryAccess guiRegistryAccess) {
 		List<AbstractConfigListEntry> newList = new ArrayList<>(list);

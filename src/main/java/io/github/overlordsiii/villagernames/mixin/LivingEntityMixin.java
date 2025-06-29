@@ -9,7 +9,6 @@ import net.minecraft.entity.LivingEntity;
 
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityMixin {
-
 	@Redirect(method = "onDeath", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;hasCustomName()Z"))
 	public boolean turnOfConsole(LivingEntity instance) {
 		return instance.hasCustomName() && !VillagerNames.CONFIG.villagerGeneralConfig.turnOffVillagerConsoleSpam;

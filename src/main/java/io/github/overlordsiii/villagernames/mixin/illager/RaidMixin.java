@@ -12,12 +12,10 @@ import net.minecraft.village.raid.Raid;
 
 @Mixin(Raid.class)
 public abstract class RaidMixin {
-
 	@Inject(method = "setWaveCaptain", at = @At("TAIL"))
 	private void setRaidCaptainRole(int wave, RaiderEntity entity, CallbackInfo ci) {
 		VillagerUtil.createIllagerNames(entity);
 		RaiderNameManager.setTitle(entity, "Raid Captain");
 		entity.setCustomName(RaiderNameManager.getFullNameAsText(entity, true));
 	}
-
 }

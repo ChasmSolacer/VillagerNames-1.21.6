@@ -20,32 +20,32 @@ import me.shedaniel.autoconfig.serializer.PartitioningSerializer;
 @Config.Gui.CategoryBackground(category = "piglinSurname", background = "minecraft:textures/block/quartz_block_side.png")
 @Config.Gui.CategoryBackground(category = "catName", background = "minecraft:textures/block/dried_kelp_top.png")
 public class VillagerConfig extends PartitioningSerializer.GlobalData implements ConfigData {
-    @ConfigEntry.Category(value = "villagerGeneral")
-    @ConfigEntry.Gui.CollapsibleObject(startExpanded = true)
-    public final VillagerGeneralConfig villagerGeneralConfig = new VillagerGeneralConfig();
+	@ConfigEntry.Category(value = "villagerGeneral")
+	@ConfigEntry.Gui.CollapsibleObject(startExpanded = true)
+	public final VillagerGeneralConfig villagerGeneralConfig = new VillagerGeneralConfig();
 
-    @ConfigEntry.Category(value = "villagerNames")
-    @ConfigEntry.Gui.CollapsibleObject(startExpanded = true)
-    public final VillagerNamesConfig villagerNamesConfig = new VillagerNamesConfig();
+	@ConfigEntry.Category(value = "villagerNames")
+	@ConfigEntry.Gui.CollapsibleObject(startExpanded = true)
+	public final VillagerNamesConfig villagerNamesConfig = new VillagerNamesConfig();
 
-    @ConfigEntry.Category(value = "golemName")
-    @ConfigEntry.Gui.CollapsibleObject(startExpanded = true)
-    public final GolemNamesConfig golemNamesConfig = new GolemNamesConfig();
+	@ConfigEntry.Category(value = "golemName")
+	@ConfigEntry.Gui.CollapsibleObject(startExpanded = true)
+	public final GolemNamesConfig golemNamesConfig = new GolemNamesConfig();
 
-    @ConfigEntry.Category(value = "sureName")
-    @ConfigEntry.Gui.CollapsibleObject(startExpanded = true)
-    public final SureNamesConfig sureNamesConfig = new SureNamesConfig();
+	@ConfigEntry.Category(value = "sureName")
+	@ConfigEntry.Gui.CollapsibleObject(startExpanded = true)
+	public final SureNamesConfig sureNamesConfig = new SureNamesConfig();
 
-    @ConfigEntry.Category(value = "piglinName")
-    @ConfigEntry.Gui.CollapsibleObject(startExpanded = true)
-    public final PiglinNamesConfig piglinNamesConfig = new PiglinNamesConfig();
+	@ConfigEntry.Category(value = "piglinName")
+	@ConfigEntry.Gui.CollapsibleObject(startExpanded = true)
+	public final PiglinNamesConfig piglinNamesConfig = new PiglinNamesConfig();
 
-    @ConfigEntry.Category(value = "piglinSurname")
-    @ConfigEntry.Gui.CollapsibleObject(startExpanded = true)
-    public final PiglinSurnamesConfig piglinSurnamesConfig = new PiglinSurnamesConfig();
+	@ConfigEntry.Category(value = "piglinSurname")
+	@ConfigEntry.Gui.CollapsibleObject(startExpanded = true)
+	public final PiglinSurnamesConfig piglinSurnamesConfig = new PiglinSurnamesConfig();
 
-    @ConfigEntry.Category(value = "catName")
-    @ConfigEntry.Gui.CollapsibleObject(startExpanded = true)
-    public final CatNamesConfig catNamesConfig = new CatNamesConfig();
+	@ConfigEntry.Category(value = "catName")
+	@ConfigEntry.Gui.CollapsibleObject(startExpanded = true)
+	public final CatNamesConfig catNamesConfig = new CatNamesConfig();
 }
 

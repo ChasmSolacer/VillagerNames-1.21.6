@@ -1,9 +1,7 @@
 package io.github.overlordsiii.villagernames.api;
 
 import io.github.overlordsiii.villagernames.VillagerNames;
-import io.github.overlordsiii.villagernames.mixin.VillagerEntityMixin;
 
-import net.minecraft.entity.mob.AbstractPiglinEntity;
 import net.minecraft.entity.passive.VillagerEntity;
 import net.minecraft.text.Text;
 
@@ -14,6 +12,7 @@ import net.minecraft.text.Text;
 public interface VillagerNameManager extends DefaultNameManager {
 	/**
 	 * Gets the villager's profession name
+	 *
 	 * @return the profession name, or null if the profession name is toggled off
 	 */
 	String getProfessionName();
@@ -25,49 +24,50 @@ public interface VillagerNameManager extends DefaultNameManager {
 
 	/**
 	 * Adds a new profession name to the villagers name
+	 *
 	 * @param appendedProfession the name of the profession
 	 */
 
 	void setProfessionName(String appendedProfession);
 
 	static String getPlayerName(VillagerEntity entity) {
-		return ((VillagerNameManager)entity).getPlayerName();
+		return ((VillagerNameManager) entity).getPlayerName();
 	}
 
 	static String getFirstName(VillagerEntity entity) {
-		return ((VillagerNameManager)entity).getFirstName();
+		return ((VillagerNameManager) entity).getFirstName();
 	}
 
 	static String getLastName(VillagerEntity entity) {
-		return ((VillagerNameManager)entity).getLastName();
+		return ((VillagerNameManager) entity).getLastName();
 	}
 
 	static void setFirstName(VillagerEntity entity, String name) {
-		((VillagerNameManager)entity).setFirstName(name);
+		((VillagerNameManager) entity).setFirstName(name);
 	}
 
 	static void setLastName(VillagerEntity entity, String name) {
-		((VillagerNameManager)entity).setLastName(name);
+		((VillagerNameManager) entity).setLastName(name);
 	}
 
 	static String getProfessionName(VillagerEntity entity) {
-		return ((VillagerNameManager)entity).getProfessionName();
+		return ((VillagerNameManager) entity).getProfessionName();
 	}
 
 	static void removeProfessionName(VillagerEntity entity) {
-		((VillagerNameManager)entity).removeProfessionName();
+		((VillagerNameManager) entity).removeProfessionName();
 	}
 
 	static void setProfessionName(String professionName, VillagerEntity entity) {
-		((VillagerNameManager)entity).setProfessionName(professionName);
+		((VillagerNameManager) entity).setProfessionName(professionName);
 	}
 
 	static String getFullName(VillagerEntity entity) {
-		return ((VillagerNameManager)entity).getFullName();
+		return ((VillagerNameManager) entity).getFullName();
 	}
 
 	static void updateFullName(VillagerEntity entity) {
-		((VillagerNameManager)entity).updateFullName();
+		((VillagerNameManager) entity).updateFullName();
 	}
 
 	static Text getFullNameAsText(VillagerEntity entity, boolean configFormatting) {
@@ -75,6 +75,6 @@ public interface VillagerNameManager extends DefaultNameManager {
 	}
 
 	static void setPlayerName(VillagerEntity entity, String name) {
-		((VillagerNameManager)entity).setPlayerName(name);
+		((VillagerNameManager) entity).setPlayerName(name);
 	}
 }

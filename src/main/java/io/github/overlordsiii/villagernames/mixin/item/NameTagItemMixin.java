@@ -1,10 +1,6 @@
 package io.github.overlordsiii.villagernames.mixin.item;
 
 import io.github.overlordsiii.villagernames.api.DefaultNameManager;
-import io.github.overlordsiii.villagernames.api.PiglinNameManager;
-import io.github.overlordsiii.villagernames.api.RaiderNameManager;
-import io.github.overlordsiii.villagernames.api.VillagerNameManager;
-import io.github.overlordsiii.villagernames.api.ZombieVillagerNameManager;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;

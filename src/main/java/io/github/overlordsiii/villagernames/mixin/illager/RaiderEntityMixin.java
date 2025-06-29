@@ -2,8 +2,6 @@ package io.github.overlordsiii.villagernames.mixin.illager;
 
 import static io.github.overlordsiii.villagernames.VillagerNames.CONFIG;
 
-import java.util.Objects;
-
 import io.github.overlordsiii.villagernames.api.RaiderNameManager;
 import net.minecraft.storage.ReadView;
 import net.minecraft.storage.WriteView;
@@ -18,11 +16,9 @@ import net.minecraft.entity.mob.PillagerEntity;
 import net.minecraft.entity.mob.VindicatorEntity;
 import net.minecraft.entity.mob.WitchEntity;
 import net.minecraft.entity.raid.RaiderEntity;
-import net.minecraft.nbt.NbtCompound;
 
 @Mixin(RaiderEntity.class)
 public abstract class RaiderEntityMixin implements RaiderNameManager {
-
 	private String firstName = null;
 
 	private String fullName = null;

@@ -24,35 +24,36 @@ import java.util.function.Supplier;
 @Environment(EnvType.CLIENT)
 @Mixin(value = SelectionListEntry.class)
 public abstract class SelectionListEntryMixin<T> {
-    @Shadow @Final @Mutable
-    private Function<T, Text> nameProvider;
+	@Shadow
+	@Final
+	@Mutable
+	private Function<T, Text> nameProvider;
 
+	@Inject(method = "<init>(Lnet/minecraft/text/Text;[Ljava/lang/Object;Ljava/lang/Object;Lnet/minecraft/text/Text;Ljava/util/function/Supplier;Ljava/util/function/Consumer;Ljava/util/function/Function;Ljava/util/function/Supplier;Z)V", at = @At("TAIL"))
+	private void injectingToCreateFormatting(Text fieldName, T[] valuesArray, T value, Text resetButtonKey, Supplier<T> defaultValue, Consumer<T> saveConsumer, Function<T, Text> nameProvider, Supplier<Optional<Text[]>> tooltipSupplier, boolean requiresRestart, CallbackInfo ci) {
+		this.nameProvider = Objects.requireNonNullElseGet(nameProvider, () -> (t -> {
+			MutableText text;
+			if (t instanceof SelectionListEntry.Translatable) {
+				text = Text.translatable(((SelectionListEntry.Translatable) t).getKey());
+				ArrayList<String> formattingDummyAsStrings = new ArrayList<>();
+				for (FormattingDummy dummy : FormattingDummy.values()) {
+					formattingDummyAsStrings.add(dummy.toString());
+				}
+				if (formattingDummyAsStrings.contains(t.toString())) {
+					text = text.formatted(FormattingDummy.valueOf(((SelectionListEntry.Translatable) t).getKey()).getFormatting());
+				}
+			} else {
+				text = Text.translatable(t.toString());
+				ArrayList<String> formattingDummyAsStrings = new ArrayList<>();
+				for (FormattingDummy dummy : FormattingDummy.values()) {
+					formattingDummyAsStrings.add(dummy.toString());
+				}
+				if (formattingDummyAsStrings.contains(t.toString())) {
+					text = text.formatted(FormattingDummy.valueOf(t.toString()).getFormatting());
+				}
+			}
 
-    @Inject(method = "<init>(Lnet/minecraft/text/Text;[Ljava/lang/Object;Ljava/lang/Object;Lnet/minecraft/text/Text;Ljava/util/function/Supplier;Ljava/util/function/Consumer;Ljava/util/function/Function;Ljava/util/function/Supplier;Z)V", at = @At("TAIL"))
-    private void injectingToCreateFormatting(Text fieldName, T[] valuesArray, T value, Text resetButtonKey, Supplier<T> defaultValue, Consumer<T> saveConsumer, Function<T, Text> nameProvider, Supplier<Optional<Text[]>> tooltipSupplier, boolean requiresRestart, CallbackInfo ci){
-        this.nameProvider = Objects.requireNonNullElseGet(nameProvider, () -> (t -> {
-            MutableText text;
-            if (t instanceof SelectionListEntry.Translatable) {
-                text = Text.translatable(((SelectionListEntry.Translatable) t).getKey());
-                ArrayList<String> formattingDummyAsStrings = new ArrayList<>();
-                for (FormattingDummy dummy : FormattingDummy.values()) {
-                    formattingDummyAsStrings.add(dummy.toString());
-                }
-                if (formattingDummyAsStrings.contains(t.toString())) {
-                    text = text.formatted(FormattingDummy.valueOf(((SelectionListEntry.Translatable) t).getKey()).getFormatting());
-                }
-            } else {
-                text = Text.translatable(t.toString());
-                ArrayList<String> formattingDummyAsStrings = new ArrayList<>();
-                for (FormattingDummy dummy : FormattingDummy.values()) {
-                    formattingDummyAsStrings.add(dummy.toString());
-                }
-                if (formattingDummyAsStrings.contains(t.toString())) {
-                    text = text.formatted(FormattingDummy.valueOf(t.toString()).getFormatting());
-                }
-            }
-
-            return text;
-        }));
-    }
+			return text;
+		}));
+	}
 }

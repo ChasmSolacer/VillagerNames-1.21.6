@@ -8,7 +8,6 @@ import me.shedaniel.autoconfig.annotation.Config;
 
 @Config(name = "piglinSurnames")
 public class PiglinSurnamesConfig implements NamesConfig, ConfigData {
-
 	public List<String> piglinSurnames = new ArrayList<>();
 
 	@Override

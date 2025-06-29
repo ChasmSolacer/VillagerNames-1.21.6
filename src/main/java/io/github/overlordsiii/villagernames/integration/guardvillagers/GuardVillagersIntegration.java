@@ -1,6 +1,5 @@
 // Guard Villagers mod is out-of-date
-/*
-package io.github.overlordsiii.villagernames.integration.guardvillagers;
+/*package io.github.overlordsiii.villagernames.integration.guardvillagers;
 
 import static io.github.overlordsiii.villagernames.VillagerNames.CONFIG;
 
@@ -43,8 +42,4 @@ public class GuardVillagersIntegration {
 	private static Text getFullNameAsText(GuardEntity entity, boolean configFormatting) {
 		return configFormatting ? Text.literal(getFullName(entity)).formatted(VillagerNames.CONFIG.villagerGeneralConfig.villagerTextFormatting.getFormatting()) : Text.literal(getFullName(entity));
 	}
-
-
-
-}
-*/
+}*/

@@ -8,7 +8,6 @@ import me.shedaniel.autoconfig.annotation.Config;
 
 @Config(name = "catNames")
 public class CatNamesConfig implements NamesConfig, ConfigData {
-
 	public List<String> catNames = new ArrayList<>();
 
 	/**

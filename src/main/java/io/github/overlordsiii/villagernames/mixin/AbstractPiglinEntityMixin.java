@@ -15,13 +15,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.mob.AbstractPiglinEntity;
 import net.minecraft.entity.mob.HostileEntity;
-import net.minecraft.entity.raid.RaiderEntity;
-import net.minecraft.nbt.NbtCompound;
 import net.minecraft.world.World;
 
 @Mixin(AbstractPiglinEntity.class)
 public abstract class AbstractPiglinEntityMixin extends HostileEntity implements PiglinNameManager {
-
 	private String firstName;
 	private String lastName;
 	private String fullName;

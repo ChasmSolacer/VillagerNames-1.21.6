@@ -1,6 +1,5 @@
 // Guard Villagers mod is out-of-date
-/*
-package io.github.overlordsiii.villagernames.mixin.guard;
+/*package io.github.overlordsiii.villagernames.mixin.guard;
 
 import static io.github.overlordsiii.villagernames.VillagerNames.CONFIG;
 
@@ -17,7 +16,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.mob.PathAwareEntity;
-import net.minecraft.nbt.NbtCompound;
 import net.minecraft.world.World;
 
 @Mixin(GuardEntity.class)
@@ -118,12 +116,9 @@ public abstract class GuardEntityMixin extends PathAwareEntity implements Defaul
 
 	@Inject(method = "readCustomData", at = @At("TAIL"))
 	private void deserializeData(ReadView view, CallbackInfo ci) {
-    view.getOptionalString("firstName").ifPresent(value -> this.firstName = value);
-    view.getOptionalString("fullName").ifPresent(value -> this.fullName = value);
-    view.getOptionalString("lastName").ifPresent(value -> this.lastName = value);
-    view.getOptionalString("playerName").ifPresent(value -> this.playerName = value);
+		view.getOptionalString("firstName").ifPresent(value -> this.firstName = value);
+		view.getOptionalString("fullName").ifPresent(value -> this.fullName = value);
+		view.getOptionalString("lastName").ifPresent(value -> this.lastName = value);
+		view.getOptionalString("playerName").ifPresent(value -> this.playerName = value);
 	}
-
-
-}
-*/
+}*/

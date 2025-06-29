@@ -6,7 +6,6 @@ import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 
 import com.google.gson.JsonObject;
 import io.github.overlordsiii.villagernames.api.DefaultNameManager;
@@ -58,8 +57,7 @@ public class NameDebugger {
 				return new Pair<>(varName, method.invoke(manager));
 			} else if (method.getParameterCount() == 1) {
 				return new Pair<>(varName, method.invoke(manager, entity));
-			}
-			else return new Pair<>(varName, null);
+			} else return new Pair<>(varName, null);
 		} catch (IllegalAccessException | InvocationTargetException e) {
 			throw new RuntimeException(e);
 		}

@@ -8,16 +8,15 @@ import me.shedaniel.autoconfig.annotation.Config;
 
 @Config(name = "sureNames")
 public class SureNamesConfig implements ConfigData, NamesConfig {
+	public List<String> sureNames = new ArrayList<>();
 
-    public List<String> sureNames = new ArrayList<>();
+	@Override
+	public String getConfigName() {
+		return "surnames";
+	}
 
-    @Override
-    public String getConfigName() {
-        return "surnames";
-    }
-
-    @Override
-    public List<String> getNameList() {
-        return sureNames;
-    }
+	@Override
+	public List<String> getNameList() {
+		return sureNames;
+	}
 }

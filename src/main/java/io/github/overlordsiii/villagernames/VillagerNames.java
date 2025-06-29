@@ -40,79 +40,79 @@ import net.fabricmc.loader.api.FabricLoader;
 
 @SuppressWarnings({"UnstableApiUsage", "unused"})
 public class VillagerNames implements ModInitializer, LevelComponentInitializer {
+	public static ConfigManager<VillagerConfig> CONFIG_MANAGER;
+	public static VillagerConfig CONFIG;
+	public static final Logger LOGGER = LogManager.getLogger(VillagerNames.class);
+	public static final ComponentKey<IntComponent> INT_COMPONENT = ComponentRegistry.getOrCreate(Identifier.of("villagernames", "intcomponent"), IntComponent.class);
 
-    public static  ConfigManager<VillagerConfig> CONFIG_MANAGER;
-    public static  VillagerConfig CONFIG;
-    public static final Logger LOGGER = LogManager.getLogger(VillagerNames.class);
-    public static final ComponentKey<IntComponent> INT_COMPONENT = ComponentRegistry.getOrCreate(Identifier.of("villagernames", "intcomponent"), IntComponent.class);
+	public static final Gson GSON = new GsonBuilder()
+		.setPrettyPrinting()
+		.serializeNulls()
+		.create();
 
-    public static final Gson GSON = new GsonBuilder()
-        .setPrettyPrinting()
-        .serializeNulls()
-        .create();
+	static {
+		CONFIG_MANAGER = (ConfigManager<VillagerConfig>) AutoConfig.register(VillagerConfig.class, PartitioningSerializer.wrap(GsonConfigSerializer::new));
+		CONFIG = AutoConfig.getConfigHolder(VillagerConfig.class).getConfig();
 
-    static {
-      CONFIG_MANAGER = (ConfigManager<VillagerConfig>) AutoConfig.register(VillagerConfig.class, PartitioningSerializer.wrap(GsonConfigSerializer::new));
-      CONFIG = AutoConfig.getConfigHolder(VillagerConfig.class).getConfig();
+	}
 
-    }
-    @Override
-    public void onInitialize() {
-        try {
-            NamesLoader.load();
-        } catch (Exception e) {
-            LOGGER.log(Level.ERROR, "Error while loading default names");
-            e.printStackTrace();
-        }
+	@Override
+	public void onInitialize() {
+		try {
+			NamesLoader.load();
+		} catch (Exception e) {
+			LOGGER.log(Level.ERROR, "Error while loading default names");
+			e.printStackTrace();
+		}
 
-        CommandRegistrationCallback.EVENT.register((commandDispatcher, dedicated, environment) -> {
-            VillagerNameCommand.register(commandDispatcher);
-            if (environment.integrated){
-                StopCommand.register(commandDispatcher);
-            }
-        });
-        ServerEntityEvents.ENTITY_LOAD.register((entity, serverWorld) -> {
-            if (entity instanceof VillagerEntity villagerEntity){
-               VillagerUtil.createVillagerNames(villagerEntity);
-               VillagerUtil.generalVillagerUpdate(villagerEntity);
-            } else if (entity instanceof IronGolemEntity ironGolemEntity){
-                VillagerUtil.loadGolemNames(ironGolemEntity);
-                VillagerUtil.updateGolemNames(ironGolemEntity);
-            } else if (entity instanceof WanderingTraderEntity wanderingTraderEntity){
-                VillagerUtil.createWanderingTraderNames(wanderingTraderEntity);
-                VillagerUtil.updateWanderingTraderNames(wanderingTraderEntity);
-            } else if (entity instanceof AbstractPiglinEntity piglinEntity && CONFIG.villagerGeneralConfig.piglinNames) {
-                VillagerUtil.createPiglinNames(piglinEntity);
-                VillagerUtil.updatePiglinNames(piglinEntity);
-                // ravager names are seperate due to how they are different than normal raider entities
-                // called "illagers" in code but these are raider entities bc not all raiders are illagers
-            } else if (entity instanceof RaiderEntity raiderEntity && !(entity instanceof RavagerEntity) && CONFIG.villagerGeneralConfig.illagerEntityNames) {
-                VillagerUtil.createIllagerNames(raiderEntity);
-                VillagerUtil.updateIllagerNames(raiderEntity);
-            } else if (CONFIG.villagerGeneralConfig.illagerEntityNames && entity instanceof RavagerEntity ravagerEntity) {
-                VillagerUtil.createRavagerNames(serverWorld, ravagerEntity);
-            } else if (FabricLoader.getInstance().isModLoaded("guardvillagers")) {
-                //GuardVillagersIntegration.createGuardVillagerNames(entity);
-            } else if (entity instanceof CatEntity catEntity) {
-                VillagerUtil.createCatNames(catEntity);
-                VillagerUtil.updateCatNames(catEntity);
-            }
-        });
+		CommandRegistrationCallback.EVENT.register((commandDispatcher, dedicated, environment) -> {
+			VillagerNameCommand.register(commandDispatcher);
+			if (environment.integrated) {
+				StopCommand.register(commandDispatcher);
+			}
+		});
+		ServerEntityEvents.ENTITY_LOAD.register((entity, serverWorld) -> {
+			if (entity instanceof VillagerEntity villagerEntity) {
+				VillagerUtil.createVillagerNames(villagerEntity);
+				VillagerUtil.generalVillagerUpdate(villagerEntity);
+			} else if (entity instanceof IronGolemEntity ironGolemEntity) {
+				VillagerUtil.loadGolemNames(ironGolemEntity);
+				VillagerUtil.updateGolemNames(ironGolemEntity);
+			} else if (entity instanceof WanderingTraderEntity wanderingTraderEntity) {
+				VillagerUtil.createWanderingTraderNames(wanderingTraderEntity);
+				VillagerUtil.updateWanderingTraderNames(wanderingTraderEntity);
+			} else if (entity instanceof AbstractPiglinEntity piglinEntity && CONFIG.villagerGeneralConfig.piglinNames) {
+				VillagerUtil.createPiglinNames(piglinEntity);
+				VillagerUtil.updatePiglinNames(piglinEntity);
+				// ravager names are seperate due to how they are different than normal raider entities
+				// called "illagers" in code but these are raider entities bc not all raiders are illagers
+			} else if (entity instanceof RaiderEntity raiderEntity && !(entity instanceof RavagerEntity) && CONFIG.villagerGeneralConfig.illagerEntityNames) {
+				VillagerUtil.createIllagerNames(raiderEntity);
+				VillagerUtil.updateIllagerNames(raiderEntity);
+			} else if (CONFIG.villagerGeneralConfig.illagerEntityNames && entity instanceof RavagerEntity ravagerEntity) {
+				VillagerUtil.createRavagerNames(serverWorld, ravagerEntity);
+			} else if (FabricLoader.getInstance().isModLoaded("guardvillagers")) {
+				//GuardVillagersIntegration.createGuardVillagerNames(entity);
+			} else if (entity instanceof CatEntity catEntity) {
+				VillagerUtil.createCatNames(catEntity);
+				VillagerUtil.updateCatNames(catEntity);
+			}
+		});
 
-        UseEntityCallback.EVENT.register(NameDebugger::printNames);
+		UseEntityCallback.EVENT.register(NameDebugger::printNames);
 
-    }
+	}
 
-    /**
-     * Called to register component factories for statically declared component types.
-     *
-     * <p><strong>The passed registry must not be held onto!</strong> Static component factories
-     * must not be registered outside of this method.
-     *
-     * @param registry a {@link LevelComponentFactoryRegistry} for <em>statically declared</em> components
-     */
-    @Override
-    public void registerLevelComponentFactories(LevelComponentFactoryRegistry registry) {
-        registry.register(INT_COMPONENT, worldProperties -> new RavagerCounterComponent());
-    }
+	/**
+	 * Called to register component factories for statically declared component types.
+	 *
+	 * <p><strong>The passed registry must not be held onto!</strong> Static component factories
+	 * must not be registered outside of this method.
+	 *
+	 * @param registry a {@link LevelComponentFactoryRegistry} for <em>statically declared</em> components
+	 */
+	@Override
+	public void registerLevelComponentFactories(LevelComponentFactoryRegistry registry) {
+		registry.register(INT_COMPONENT, worldProperties -> new RavagerCounterComponent());
+	}
 }

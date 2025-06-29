@@ -6,37 +6,36 @@ import net.minecraft.entity.mob.AbstractPiglinEntity;
 import net.minecraft.text.Text;
 
 public interface PiglinNameManager extends DefaultNameManager {
-
 	static String getPlayerName(AbstractPiglinEntity entity) {
-		return ((PiglinNameManager)entity).getPlayerName();
+		return ((PiglinNameManager) entity).getPlayerName();
 	}
 
 	static void setFirstName(String name, AbstractPiglinEntity entity) {
-		((PiglinNameManager)entity).setFirstName(name);
+		((PiglinNameManager) entity).setFirstName(name);
 	}
 
 	static void setLastName(String name, AbstractPiglinEntity entity) {
-		((PiglinNameManager)entity).setLastName(name);
+		((PiglinNameManager) entity).setLastName(name);
 	}
 
 	static String getFirstName(AbstractPiglinEntity entity) {
-		return ((PiglinNameManager)entity).getFirstName();
+		return ((PiglinNameManager) entity).getFirstName();
 	}
 
 	static String getLastName(AbstractPiglinEntity entity) {
-		return ((PiglinNameManager)entity).getLastName();
+		return ((PiglinNameManager) entity).getLastName();
 	}
 
 	static void updateLastName(AbstractPiglinEntity entity) {
-		((PiglinNameManager)entity).updateFullName();
+		((PiglinNameManager) entity).updateFullName();
 	}
 
 	static String getFullName(AbstractPiglinEntity entity) {
-		return ((PiglinNameManager)entity).getFullName();
+		return ((PiglinNameManager) entity).getFullName();
 	}
 
 	static void setPlayerName(AbstractPiglinEntity entity, String name) {
-		((PiglinNameManager)entity).setPlayerName(name);
+		((PiglinNameManager) entity).setPlayerName(name);
 	}
 
 	static Text getFullNameAsText(AbstractPiglinEntity entity, boolean configFormatting) {

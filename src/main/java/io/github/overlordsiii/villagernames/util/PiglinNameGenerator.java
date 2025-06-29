@@ -4,7 +4,6 @@ import java.util.Arrays;
 import java.util.List;
 
 public class PiglinNameGenerator {
-
 	// galactic alphabet somehow doesn't seem to work when being read from inside the jar, no matter what charset is used
 	// note this error in reading alphabet only happens in prod not dev
 	// so instead we'll just store them here
