@@ -50,6 +50,7 @@
   "text.autoconfig.VillagerNames.warning": "⚠ ANY CHANGES TO THIS CONFIG REQUIRE A SERVER RESTART ⚠",
   "text.autoconfig.VillagerNames.category.catName": "Cat Names",
   "text.autoconfig.VillagerNames.option.catNamesConfig": "Cat Names",
-  "text.autoconfig.VillagerNames.option.villagerGeneralConfig.catNames": "Cat Names List",
-  "text.autoconfig.VillagerNames.option.villagerGeneralConfig.catNames.@Tooltip": "Gives names to cats"
+  "text.autoconfig.VillagerNames.option.villagerGeneralConfig.catNames": "Cat Names",
+  "text.autoconfig.VillagerNames.option.villagerGeneralConfig.catNames.@Tooltip": "Gives names to cats",
+  "text.autoconfig.VillagerNames.option.catNamesConfig.catNames": "Cat Names List"
 }

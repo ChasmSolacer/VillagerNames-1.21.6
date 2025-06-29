@@ -25,6 +25,7 @@ public class WarningMessageGuiTransformer implements GuiTransformer {
 				.formatted(Formatting.RED))
 			.build();
 
+		newList.addFirst(entry);
 		newList.add(entry);
 		return newList;
 	}
