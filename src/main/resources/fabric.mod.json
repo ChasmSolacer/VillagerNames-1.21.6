@@ -24,7 +24,7 @@
     ]
   },
   "license": "MIT",
-  "icon": "assets/villagernames/villager_icon.png",
+  "icon": "assets/villagernames/villager_names_fork_icon.png",
   "environment": "*",
   "mixins": [
     "villagernames.mixins.json"
